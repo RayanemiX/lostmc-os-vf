@@ -1,0 +1,243 @@
+/* ============================================================================
+   LOST MC OS - BUREAU
+   Fichier : css/04-desktop.css
+   ============================================================================ */
+
+#desktop {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    transition: opacity var(--duration-slow) var(--ease-out);
+}
+#desktop.visible { opacity: 1; }
+
+#desktop::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(10,10,10,0.15) 0%, rgba(10,10,10,0.45) 100%);
+    pointer-events: none;
+}
+
+/* ---------- Icônes du bureau ---------- */
+#desktop-icons {
+    position: absolute;
+    top: 24px;
+    left: 24px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 84px);
+    gap: 14px;
+    z-index: 1;
+}
+
+.desktop-icon {
+    width: 84px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 4px;
+    border-radius: var(--radius-md);
+    text-align: center;
+    user-select: none;
+    transition: background var(--duration-fast) var(--ease-out);
+}
+.desktop-icon:hover, .desktop-icon.selected { background: rgba(245, 245, 245, 0.08); }
+.desktop-icon .icon-glyph {
+    font-size: 1.9rem;
+    width: 52px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--glass-blur));
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+}
+.desktop-icon .icon-label {
+    font-size: 0.75rem;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+}
+
+/* ---------- Barre des tâches ---------- */
+#taskbar {
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    height: var(--taskbar-height);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 10px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--glass-blur));
+    border-top: 1px solid var(--glass-border);
+    z-index: 50;
+}
+
+#start-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px;
+    border-radius: var(--radius-sm);
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 0.85rem;
+    transition: background var(--duration-fast) var(--ease-out);
+}
+#start-button:hover, #start-button.active { background: var(--color-accent); }
+
+#taskbar-open-windows {
+    display: flex;
+    gap: 6px;
+    flex: 1;
+    overflow-x: auto;
+}
+
+.taskbar-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: var(--radius-sm);
+    font-size: 0.82rem;
+    background: rgba(245,245,245,0.04);
+    border: 1px solid transparent;
+    white-space: nowrap;
+}
+.taskbar-item.focused { border-color: var(--color-accent); background: rgba(138,3,3,0.25); }
+
+#taskbar-right {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding-right: 6px;
+}
+
+#notif-bell {
+    position: relative;
+    font-size: 1.1rem;
+    padding: 6px;
+    border-radius: var(--radius-sm);
+}
+#notif-bell:hover { background: rgba(245,245,245,0.08); }
+#notif-bell .notif-dot {
+    position: absolute;
+    top: 2px; right: 2px;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    border: 1px solid var(--color-bg);
+}
+
+#taskbar-clock {
+    text-align: right;
+    font-size: 0.78rem;
+    line-height: 1.25;
+    color: var(--color-text-dim);
+    cursor: default;
+}
+#taskbar-clock .clock-time { color: var(--color-text); font-weight: 600; }
+
+/* ---------- Menu Démarrer ---------- */
+#start-menu {
+    position: absolute;
+    left: 10px;
+    bottom: calc(var(--taskbar-height) + 10px);
+    width: 340px;
+    max-height: 60vh;
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--glass-blur));
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-window);
+    padding: 16px;
+    z-index: 60;
+    transform: translateY(12px) scale(0.98);
+    opacity: 0;
+    pointer-events: none;
+    transition: all var(--duration-normal) var(--ease-out);
+}
+#start-menu.open {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+    pointer-events: all;
+}
+
+#start-menu .start-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--color-border);
+    margin-bottom: 10px;
+}
+#start-menu .start-avatar {
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    background: var(--color-surface-alt) center/cover no-repeat;
+}
+#start-menu .start-grade { font-size: 0.75rem; color: var(--color-text-dim); }
+
+.start-menu-apps {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    max-height: 40vh;
+    overflow-y: auto;
+}
+
+.start-menu-app {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 10px;
+    border-radius: var(--radius-sm);
+    font-size: 0.88rem;
+}
+.start-menu-app:hover { background: rgba(245,245,245,0.08); }
+
+.start-menu-footer {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid var(--color-border);
+    display: flex;
+    justify-content: space-between;
+}
+
+/* ---------- Panneau de notifications ---------- */
+#notif-panel {
+    position: absolute;
+    right: 10px;
+    bottom: calc(var(--taskbar-height) + 10px);
+    width: 320px;
+    max-height: 60vh;
+    overflow-y: auto;
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--glass-blur));
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-window);
+    padding: 14px;
+    z-index: 60;
+    transform: translateY(12px) scale(0.98);
+    opacity: 0;
+    pointer-events: none;
+    transition: all var(--duration-normal) var(--ease-out);
+}
+#notif-panel.open { transform: translateY(0) scale(1); opacity: 1; pointer-events: all; }
+
+.notif-item {
+    padding: 10px;
+    border-radius: var(--radius-sm);
+    margin-bottom: 6px;
+    background: rgba(245,245,245,0.04);
+    border-left: 3px solid var(--color-accent);
+}
+.notif-item .notif-title { font-weight: 600; font-size: 0.85rem; }
+.notif-item .notif-message { font-size: 0.78rem; color: var(--color-text-dim); margin-top: 2px; }
+.notif-item .notif-time { font-size: 0.68rem; color: var(--color-text-dim); margin-top: 4px; }
+.notif-empty { text-align: center; color: var(--color-text-dim); font-size: 0.85rem; padding: 20px 0; }

@@ -1,0 +1,116 @@
+/* ============================================================================
+   LOST MC OS - ÉCRAN DE CONNEXION
+   Fichier : css/03-login.css
+   ============================================================================ */
+
+#login-screen {
+    position: absolute;
+    inset: 0;
+    z-index: 90;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    transition: opacity var(--duration-slow) var(--ease-out);
+}
+
+#login-screen::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(10,10,10,0.55) 0%, rgba(10,10,10,0.85) 100%);
+}
+
+#login-screen.visible { opacity: 1; }
+
+.login-clock {
+    position: absolute;
+    top: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    z-index: 2;
+}
+.login-clock .time { font-family: var(--font-display); font-size: 3rem; font-weight: 700; }
+.login-clock .date { color: var(--color-text-dim); font-size: 0.95rem; margin-top: 4px; }
+
+.login-card {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+    padding: 40px;
+    width: 340px;
+}
+
+.login-avatar {
+    width: 108px;
+    height: 108px;
+    border-radius: 50%;
+    background: var(--color-surface-alt) center/cover no-repeat;
+    border: 2px solid var(--color-border);
+    box-shadow: var(--shadow-soft);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display);
+    font-size: 2.2rem;
+    color: var(--color-text-dim);
+}
+
+.login-name {
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    text-align: center;
+}
+
+.login-form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.login-form input {
+    width: 100%;
+    padding: 12px 14px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--glass-blur));
+    border-radius: var(--radius-md);
+    text-align: center;
+}
+
+.login-form .btn {
+    width: 100%;
+    border-radius: var(--radius-md);
+    padding: 12px;
+}
+
+.login-error {
+    color: var(--color-danger);
+    font-size: 0.85rem;
+    text-align: center;
+    min-height: 1.2em;
+}
+
+.login-hint {
+    color: var(--color-text-dim);
+    font-size: 0.75rem;
+    text-align: center;
+}
+
+.login-club-name {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: var(--font-display);
+    letter-spacing: 0.25em;
+    font-size: 0.8rem;
+    color: var(--color-text-dim);
+    z-index: 2;
+}

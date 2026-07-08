@@ -1,0 +1,12 @@
+# Système
+.DS_Store
+Thumbs.db
+
+# Éditeurs
+.vscode/
+.idea/
+
+# Remarque : js/services/supabaseConfig.js CONTIENT SEULEMENT l'URL du projet
+# et la clé "anon public". Cette clé est conçue par Supabase pour être
+# publique (elle est protégée par les policies RLS) : elle peut donc être
+# commitée sans risque. Ne jamais commiter en revanche une clé "service_role".

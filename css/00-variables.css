@@ -1,0 +1,48 @@
+/* ============================================================================
+   LOST MC OS - VARIABLES GLOBALES
+   Fichier : css/00-variables.css
+   Toute couleur / taille utilisée ailleurs doit passer par ces variables,
+   pour que Paramètres > Apparence puisse les modifier dynamiquement
+   (voir js/services/themeService.js) sans toucher au CSS.
+   ============================================================================ */
+
+:root {
+    /* Palette - modifiable dynamiquement via club_settings (Supabase) */
+    --color-bg:            #0a0a0a;   /* noir profond */
+    --color-surface:       #1a1a1a;   /* gris foncé - fenêtres, panneaux */
+    --color-surface-alt:   #232323;   /* gris foncé légèrement plus clair */
+    --color-accent:        #8a0303;   /* rouge sombre */
+    --color-accent-hover:  #a80505;
+    --color-text:          #f5f5f5;   /* blanc cassé */
+    --color-text-dim:      #a8a8a8;
+    --color-border:        rgba(245, 245, 245, 0.08);
+    --color-danger:        #c0392b;
+    --color-success:       #2e7d32;
+    --color-warning:       #c9a227;
+
+    /* Glassmorphism */
+    --glass-bg:            rgba(26, 26, 26, 0.72);
+    --glass-border:        rgba(245, 245, 245, 0.06);
+    --glass-blur:          14px;
+
+    /* Typographie */
+    --font-display: 'Cinzel', 'Times New Roman', serif;       /* titres, ambiance biker/blason */
+    --font-body:    'Inter', 'Segoe UI', system-ui, sans-serif; /* données, lisibilité */
+    --font-mono:    'JetBrains Mono', 'Consolas', monospace;    /* matricules, horodatages */
+
+    /* Rayons / ombres */
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 14px;
+    --shadow-window: 0 20px 60px rgba(0, 0, 0, 0.55);
+    --shadow-soft: 0 4px 18px rgba(0, 0, 0, 0.35);
+
+    /* Timing des animations */
+    --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+    --duration-fast: 150ms;
+    --duration-normal: 280ms;
+    --duration-slow: 500ms;
+
+    /* Dimensions système */
+    --taskbar-height: 52px;
+}

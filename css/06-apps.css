@@ -1,0 +1,92 @@
+/* ============================================================================
+   LOST MC OS - STYLES GÉNÉRIQUES DES APPLICATIONS
+   Fichier : css/06-apps.css
+   Utilisés par le moteur CRUD générique (js/pages/apps/crudEngine.js)
+   et partagés par toutes les applications du bureau.
+   ============================================================================ */
+
+.app-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+}
+.app-toolbar .search-input { flex: 1; min-width: 180px; }
+.app-toolbar select { min-width: 140px; }
+
+.app-stats-row {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+}
+.stat-card {
+    flex: 1;
+    min-width: 140px;
+    background: rgba(245,245,245,0.04);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: 14px 16px;
+}
+.stat-card .stat-label { font-size: 0.72rem; color: var(--color-text-dim); text-transform: uppercase; letter-spacing: 0.06em; }
+.stat-card .stat-value { font-family: var(--font-display); font-size: 1.4rem; margin-top: 4px; }
+.stat-card.alert { border-color: var(--color-warning); }
+.stat-card.danger { border-color: var(--color-danger); }
+
+table.app-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+}
+.app-table thead th {
+    text-align: left;
+    padding: 10px 12px;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-dim);
+    border-bottom: 1px solid var(--color-border);
+    position: sticky;
+    top: 0;
+    background: var(--color-surface);
+}
+.app-table tbody td {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--color-border);
+    vertical-align: middle;
+}
+.app-table tbody tr:hover { background: rgba(245,245,245,0.03); }
+.app-table .row-actions { display: flex; gap: 6px; justify-content: flex-end; }
+.app-table .row-actions button { font-size: 0.9rem; padding: 4px 6px; border-radius: var(--radius-sm); }
+.app-table .row-actions button:hover { background: rgba(245,245,245,0.1); }
+
+.app-empty-state {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--color-text-dim);
+}
+
+.app-form { display: flex; flex-direction: column; gap: 12px; }
+.app-form .field-row { display: flex; gap: 10px; flex-wrap: wrap; }
+.app-form .field { flex: 1; min-width: 160px; display: flex; flex-direction: column; gap: 4px; }
+.app-form label { font-size: 0.75rem; color: var(--color-text-dim); }
+.app-form .form-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 6px; }
+
+.avatar-thumb {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: var(--color-surface-alt) center/cover no-repeat;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.status-pill { padding: 2px 10px; border-radius: 999px; font-size: 0.72rem; font-weight: 600; }
+.status-actif, .status-allie { background: rgba(46,125,50,0.2); color: #6fcf73; }
+.status-suspendu, .status-danger { background: rgba(192,57,43,0.2); color: #e57368; }
+.status-en_conge, .status-neutre { background: rgba(201,162,39,0.2); color: #e0c05a; }
+.status-exclu, .status-en_guerre { background: rgba(192,57,43,0.3); color: #ff6b5c; }
+.status-prospect { background: rgba(245,245,245,0.1); color: var(--color-text-dim); }
+
+.amount-in { color: #6fcf73; font-weight: 600; }
+.amount-out { color: #e57368; font-weight: 600; }

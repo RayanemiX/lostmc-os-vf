@@ -1,0 +1,135 @@
+/* ============================================================================
+   LOST MC OS - FENÊTRES & CONTEXT MENU
+   Fichier : css/05-window.css
+   ============================================================================ */
+
+.window {
+    position: absolute;
+    min-width: 380px;
+    min-height: 260px;
+    display: flex;
+    flex-direction: column;
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--glass-blur));
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-window);
+    overflow: hidden;
+    z-index: 10;
+    transform: scale(0.94);
+    opacity: 0;
+    animation: window-open var(--duration-normal) var(--ease-out) forwards;
+}
+
+@keyframes window-open {
+    to { transform: scale(1); opacity: 1; }
+}
+
+.window.closing {
+    animation: window-close var(--duration-fast) var(--ease-out) forwards;
+}
+@keyframes window-close {
+    to { transform: scale(0.94); opacity: 0; }
+}
+
+.window.minimized { display: none; }
+.window.focused { z-index: 20; border-color: var(--color-accent); }
+
+.window-titlebar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 8px 0 14px;
+    height: 40px;
+    background: rgba(0,0,0,0.25);
+    border-bottom: 1px solid var(--glass-border);
+    cursor: move;
+    user-select: none;
+    flex-shrink: 0;
+}
+
+.window-titlebar .window-icon { font-size: 1rem; }
+.window-titlebar .window-title {
+    flex: 1;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.window-controls { display: flex; gap: 4px; }
+.window-controls button {
+    width: 28px; height: 28px;
+    border-radius: var(--radius-sm);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.85rem;
+    transition: background var(--duration-fast) var(--ease-out);
+}
+.window-controls button:hover { background: rgba(245,245,245,0.1); }
+.window-controls .btn-close:hover { background: var(--color-danger); }
+
+.window-body {
+    flex: 1;
+    overflow: auto;
+    padding: 18px;
+}
+
+.window-resize-handle {
+    position: absolute;
+    right: 0; bottom: 0;
+    width: 16px; height: 16px;
+    cursor: nwse-resize;
+}
+
+/* ---------- Context Menu ---------- */
+.context-menu {
+    position: fixed;
+    min-width: 190px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--glass-blur));
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-window);
+    padding: 6px;
+    z-index: 200;
+}
+.context-menu-item {
+    padding: 8px 12px;
+    font-size: 0.85rem;
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.context-menu-item:hover { background: rgba(245,245,245,0.08); }
+.context-menu-item.danger { color: var(--color-danger); }
+.context-menu-sep { height: 1px; background: var(--color-border); margin: 4px 0; }
+
+/* ---------- Toasts de notification (temps réel) ---------- */
+#toast-container {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 300;
+}
+.toast {
+    width: 300px;
+    padding: 14px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--glass-blur));
+    border-left: 3px solid var(--color-accent);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-soft);
+    animation: toast-in var(--duration-normal) var(--ease-out);
+}
+@keyframes toast-in {
+    from { transform: translateX(30px); opacity: 0; }
+    to   { transform: translateX(0); opacity: 1; }
+}
+.toast .toast-title { font-weight: 600; font-size: 0.85rem; }
+.toast .toast-message { font-size: 0.78rem; color: var(--color-text-dim); margin-top: 2px; }

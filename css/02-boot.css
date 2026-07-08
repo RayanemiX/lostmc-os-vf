@@ -1,0 +1,78 @@
+/* ============================================================================
+   LOST MC OS - BOOT SEQUENCE
+   Fichier : css/02-boot.css
+   ============================================================================ */
+
+#boot-screen {
+    position: absolute;
+    inset: 0;
+    background: #000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    transition: opacity var(--duration-slow) var(--ease-out);
+}
+
+#boot-screen.fade-out { opacity: 0; pointer-events: none; }
+
+.boot-logo {
+    width: 160px;
+    height: auto;
+    opacity: 0;
+    filter: drop-shadow(0 0 25px rgba(138, 3, 3, 0.35));
+    animation: boot-logo-appear 1.4s var(--ease-out) forwards;
+}
+
+@keyframes boot-logo-appear {
+    0%   { opacity: 0; transform: scale(0.85); }
+    60%  { opacity: 1; transform: scale(1.02); }
+    100% { opacity: 1; transform: scale(1); }
+}
+
+.boot-text {
+    margin-top: 28px;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    letter-spacing: 0.12em;
+    color: var(--color-text-dim);
+    opacity: 0;
+    animation: boot-text-appear 0.6s var(--ease-out) forwards;
+    animation-delay: 1.2s;
+    text-align: center;
+    min-height: 1.2em;
+}
+
+@keyframes boot-text-appear {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+.boot-progress {
+    margin-top: 18px;
+    width: 220px;
+    height: 3px;
+    background: var(--color-surface-alt);
+    border-radius: 999px;
+    overflow: hidden;
+    opacity: 0;
+    animation: boot-text-appear 0.6s var(--ease-out) forwards;
+    animation-delay: 1.4s;
+}
+
+.boot-progress-bar {
+    height: 100%;
+    width: 0%;
+    background: var(--color-accent);
+    transition: width 1.6s var(--ease-out);
+}
+
+.boot-flicker {
+    animation: boot-flicker 90ms steps(2) 3;
+}
+
+@keyframes boot-flicker {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+}
