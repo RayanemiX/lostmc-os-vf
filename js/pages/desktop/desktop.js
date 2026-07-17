@@ -123,14 +123,19 @@ function openExternalApp(app) {
         title: app.label,
         allow: 'clipboard-write; fullscreen',
     });
+    const margin = 40;
+    const width = Math.max(700, window.innerWidth - margin * 2);
+    const height = Math.max(480, window.innerHeight - margin * 2 - 52); // 52 = hauteur barre des tâches
     WM.openWindow({
         appKey: `external-${app.key}`,
         title: app.label,
         icon: app.icon,
         content: iframe,
         bodyClass: 'no-padding',
-        width: 1040,
-        height: 680,
+        width,
+        height,
+        left: margin,
+        top: margin,
     });
 }
 
