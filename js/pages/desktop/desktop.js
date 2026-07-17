@@ -89,10 +89,10 @@ export function buildDesktop({ wallpaperUrl, clubName, memberProfile }) {
 }
 
 // Applications externes : ne dépendent d'aucune permission Supabase, toujours visibles,
-// ouvrent le site externe de gestion Bar/Mécano dans un nouvel onglet.
+// ouvrent le site externe de gestion Bar/Mécano dans une fenêtre intégrée au bureau (iframe).
 const EXTERNAL_APPS = [
-    { label: 'Bar', icon: '🍺', url: 'https://hannibalgta.github.io/MCLOSTBARMECANO/' },
-    { label: 'Atelier Mécanique', icon: '🔧', url: 'https://hannibalgta.github.io/MCLOSTBARMECANO/' },
+    { key: 'bar', label: 'Bar', icon: '🍺', url: 'https://hannibalgta.github.io/MCLOSTBARMECANO/' },
+    { key: 'mecano', label: 'Atelier Mécanique', icon: '🔧', url: 'https://hannibalgta.github.io/MCLOSTBARMECANO/' },
 ];
 
 function populateIcons(container, memberProfile) {
@@ -112,8 +112,25 @@ function populateIcons(container, memberProfile) {
             el('div', { class: 'icon-glyph' }, app.icon),
             el('div', { class: 'icon-label' }, app.label),
         ]);
-        icon.addEventListener('dblclick', () => window.open(app.url, '_blank', 'noopener'));
+        icon.addEventListener('dblclick', () => openExternalApp(app));
         container.append(icon);
+    });
+}
+
+function openExternalApp(app) {
+    const iframe = el('iframe', {
+        src: app.url,
+        title: app.label,
+        allow: 'clipboard-write; fullscreen',
+    });
+    WM.openWindow({
+        appKey: `external-${app.key}`,
+        title: app.label,
+        icon: app.icon,
+        content: iframe,
+        bodyClass: 'no-padding',
+        width: 1040,
+        height: 680,
     });
 }
 
