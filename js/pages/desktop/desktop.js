@@ -24,12 +24,13 @@ export function buildDesktop({ wallpaperUrl, clubName, memberProfile }) {
     const startButton = el('button', { id: 'start-button' }, [el('span', {}, '🦅'), el('span', {}, clubName || 'LOST MC')]);
     const openWindowsBar = el('div', { id: 'taskbar-open-windows' });
     const notifBell = el('button', { id: 'notif-bell' }, '🔔');
+    const autoRefreshBtn = el('button', { id: 'auto-refresh-toggle' }, '🔄');
     const clock = el('div', { id: 'taskbar-clock' }, [el('div', { class: 'clock-time' }, '--:--'), el('div', { class: 'clock-date' }, '')]);
 
     const taskbar = el('div', { id: 'taskbar' }, [
         startButton,
         openWindowsBar,
-        el('div', { id: 'taskbar-right' }, [notifBell, clock]),
+        el('div', { id: 'taskbar-right' }, [notifBell, autoRefreshBtn, clock]),
     ]);
 
     const startMenu = buildStartMenu(memberProfile);
@@ -80,10 +81,19 @@ export function buildDesktop({ wallpaperUrl, clubName, memberProfile }) {
         refreshNotifBadge(notifBell);
     });
 
+    setupAutoRefresh(autoRefreshBtn);
+
     requestAnimationFrame(() => desktop.classList.add('visible'));
 
     return desktop;
 }
+
+// Applications externes : ne dépendent d'aucune permission Supabase, toujours visibles,
+// ouvrent le site externe de gestion Bar/Mécano dans un nouvel onglet.
+const EXTERNAL_APPS = [
+    { label: 'Bar', icon: '🍺', url: 'https://hannibalgta.github.io/MCLOSTBARMECANO/' },
+    { label: 'Atelier Mécanique', icon: '🔧', url: 'https://hannibalgta.github.io/MCLOSTBARMECANO/' },
+];
 
 function populateIcons(container, memberProfile) {
     const modules = getVisibleModules();
@@ -94,6 +104,15 @@ function populateIcons(container, memberProfile) {
             el('div', { class: 'icon-label' }, mod.label),
         ]);
         icon.addEventListener('dblclick', () => openApp(mod, memberProfile));
+        container.append(icon);
+    });
+
+    EXTERNAL_APPS.forEach((app) => {
+        const icon = el('div', { class: 'desktop-icon external' }, [
+            el('div', { class: 'icon-glyph' }, app.icon),
+            el('div', { class: 'icon-label' }, app.label),
+        ]);
+        icon.addEventListener('dblclick', () => window.open(app.url, '_blank', 'noopener'));
         container.append(icon);
     });
 }
@@ -183,4 +202,70 @@ function updateClock(clockEl) {
     const now = new Date();
     clockEl.querySelector('.clock-time').textContent = now.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
     clockEl.querySelector('.clock-date').textContent = now.toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+}
+
+/* ---------- Actualisation automatique ---------- */
+const AUTO_REFRESH_ENABLED_KEY = 'lostmc_auto_refresh_enabled';
+const AUTO_REFRESH_INTERVAL_KEY = 'lostmc_auto_refresh_interval_min';
+const AUTO_REFRESH_DEFAULT_MIN = 5;
+let autoRefreshTimer = null;
+
+function getAutoRefreshInterval() {
+    return parseInt(localStorage.getItem(AUTO_REFRESH_INTERVAL_KEY), 10) || AUTO_REFRESH_DEFAULT_MIN;
+}
+
+function setupAutoRefresh(button) {
+    const enabled = localStorage.getItem(AUTO_REFRESH_ENABLED_KEY) === '1';
+    applyAutoRefreshState(button, enabled, getAutoRefreshInterval());
+
+    button.addEventListener('click', () => {
+        const nowEnabled = localStorage.getItem(AUTO_REFRESH_ENABLED_KEY) !== '1';
+        localStorage.setItem(AUTO_REFRESH_ENABLED_KEY, nowEnabled ? '1' : '0');
+        const intervalMin = getAutoRefreshInterval();
+        applyAutoRefreshState(button, nowEnabled, intervalMin);
+        showToast({
+            title: 'Actualisation automatique',
+            message: nowEnabled ? `Activée (toutes les ${intervalMin} min)` : 'Désactivée',
+        });
+    });
+
+    button.addEventListener('contextmenu', (e) => {
+        e.preventDefault();
+        const current = getAutoRefreshInterval();
+        const isEnabled = localStorage.getItem(AUTO_REFRESH_ENABLED_KEY) === '1';
+        const options = [1, 2, 5, 10, 15].map((min) => ({
+            label: `Toutes les ${min} min${isEnabled && min === current ? ' ✓' : ''}`,
+            icon: '⏱️',
+            onClick: () => {
+                localStorage.setItem(AUTO_REFRESH_INTERVAL_KEY, String(min));
+                localStorage.setItem(AUTO_REFRESH_ENABLED_KEY, '1');
+                applyAutoRefreshState(button, true, min);
+                showToast({ title: 'Actualisation automatique', message: `Activée (toutes les ${min} min)` });
+            },
+        }));
+        options.push({
+            label: 'Désactiver',
+            icon: '⏹️',
+            onClick: () => {
+                localStorage.setItem(AUTO_REFRESH_ENABLED_KEY, '0');
+                applyAutoRefreshState(button, false, current);
+                showToast({ title: 'Actualisation automatique', message: 'Désactivée' });
+            },
+        });
+        showContextMenu(e, options);
+    });
+}
+
+function applyAutoRefreshState(button, enabled, intervalMin) {
+    button.classList.toggle('active', enabled);
+    button.title = enabled
+        ? `Actualisation automatique activée (toutes les ${intervalMin} min) — clic droit pour changer l'intervalle`
+        : "Actualisation automatique désactivée — clic pour activer, clic droit pour choisir un intervalle";
+    if (autoRefreshTimer) {
+        clearInterval(autoRefreshTimer);
+        autoRefreshTimer = null;
+    }
+    if (enabled) {
+        autoRefreshTimer = setInterval(() => location.reload(), intervalMin * 60 * 1000);
+    }
 }
