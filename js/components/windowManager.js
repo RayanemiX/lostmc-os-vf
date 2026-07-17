@@ -34,12 +34,14 @@ export function openWindow(opts) {
     const width = opts.width || 760;
     const height = opts.height || 520;
     const offset = (openWindows.size % 6) * 24;
+    const left = opts.left !== undefined ? opts.left : 120 + offset;
+    const top = opts.top !== undefined ? opts.top : 70 + offset;
 
     const body = el('div', { class: opts.bodyClass ? `window-body ${opts.bodyClass}` : 'window-body' }, [opts.content]);
 
     const windowEl = el('div', {
         class: 'window',
-        style: `width:${width}px; height:${height}px; left:${120 + offset}px; top:${70 + offset}px;`,
+        style: `width:${width}px; height:${height}px; left:${left}px; top:${top}px;`,
         'data-window-id': id,
     }, [
         el('div', { class: 'window-titlebar' }, [
