@@ -26,8 +26,12 @@
     position: absolute;
     top: 24px;
     left: 24px;
+    right: 24px;
+    bottom: calc(var(--taskbar-height) + 24px);
     display: grid;
+    grid-auto-flow: column;
     grid-template-columns: repeat(auto-fill, 84px);
+    grid-template-rows: repeat(auto-fill, 104px);
     gap: 14px;
     z-index: 1;
 }
