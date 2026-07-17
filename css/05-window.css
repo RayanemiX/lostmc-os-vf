@@ -75,6 +75,17 @@
     overflow: auto;
     padding: 18px;
 }
+.window-body.no-padding {
+    padding: 0;
+    overflow: hidden;
+}
+.window-body.no-padding iframe {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: none;
+    background: #0a0a0a;
+}
 
 .window-resize-handle {
     position: absolute;
