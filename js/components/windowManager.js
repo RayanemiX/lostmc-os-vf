@@ -35,7 +35,7 @@ export function openWindow(opts) {
     const height = opts.height || 520;
     const offset = (openWindows.size % 6) * 24;
 
-    const body = el('div', { class: 'window-body' }, [opts.content]);
+    const body = el('div', { class: opts.bodyClass ? `window-body ${opts.bodyClass}` : 'window-body' }, [opts.content]);
 
     const windowEl = el('div', {
         class: 'window',
